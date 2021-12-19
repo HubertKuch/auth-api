@@ -1,7 +1,7 @@
 import app from './app';
 import writeLog from './utils/writeLog';
 
-app.listen(process.env.PORT);
+app.listen(process.env.PORT, () => console.log(`server listen on ${process.env.PORT}`));
 
 process.on('unhandledRejection', (reason, promise) => {
     console.log(`UNHANDLED REJECTION: ${JSON.stringify(promise)} REASON ${reason}`);

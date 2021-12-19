@@ -5,6 +5,9 @@ import AppError from "../utils/appError";
 import sendStatus from "../utils/sendStatus";
 import sendEmail from "../utils/sendEmail";
 import { createHash } from 'crypto';
+import jwt from 'jsonwebtoken';
+import signToken from '../utils/signToken';
+import { isValidObjectId } from 'mongoose';
 
 interface ISingUpData {
     username: string,
@@ -49,7 +52,7 @@ const verifyEmail = catchAsync(async (req: Request, res: Response, next: NextFun
     if (!user) {
         return next(new AppError('Invalid user id.', 401));
     }
-    console.log(222)
+
     if (hashedToken === user.activateEmailToken && (user.activateEmailTokenExpiresIn > Date.now()-5)){
         user.isEmailActivated = true;
         user.activateEmailToken = undefined;
@@ -60,4 +63,54 @@ const verifyEmail = catchAsync(async (req: Request, res: Response, next: NextFun
     }
 });
 
-export default { signup, verifyEmail };
+const login = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { email, password }: { email: string, password: string } = req.body;
+    if (!email || !password) {
+        return next(new AppError('Please provide email and password.', 400));
+    }
+
+    const user = await User.findOne({ email }).select('+password');
+
+    if (!await user) {
+        return next(new AppError('Email or password was incorrect.', 401));
+    }
+
+    //  compare hash
+    if (!user.comparePassword(password)) {
+        return next(new AppError('Email or password was incorrect.', 401));
+    }
+
+    // check if email is active
+    if (!user.isEmailActivated) {
+        return next(new AppError('Your email was not activated', 401));
+    }
+
+    // check if user account was not deleted
+    if (!user.isActivated) {
+        return next(new AppError('Your account was deleted', 401));
+    }
+
+    const token = await signToken(user._id);
+
+    sendStatus(res, 'success', 200, 'ok', { token });
+});
+
+interface IUserReq extends Request {
+    user: any
+}
+
+const protectRoute = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    let token: string = '';
+
+    if (req.headers.authorization && `${req.headers.authorization}`.startsWith('Bearer')) {
+        token! = req.headers.authorization?.split(' ')[1];
+    }
+
+    if (token === '') {
+        return next(new AppError('The token was not sent corrct.', 400));
+    }
+
+    const userId = jwt.verify(token, process.env.JWT_SECRET!);
+});
+
+export default { signup, verifyEmail, login, protectRoute };

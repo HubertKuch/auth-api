@@ -16,7 +16,8 @@ const userSchema = new Schema({
                 return !!passedEmail.match(/@/);
             },
             message: 'E-mail is incorrect.',
-        }
+        },
+        unique: [true, 'Email must be unique.'],
     },
     password: {
         type: String,
@@ -70,14 +71,18 @@ userSchema.methods.afterPasswordChanged = function (jwtTimestamp: number) {
         return this.passwordChangedAt > jwtTimestamp;
     }
     return false;
-}
+};
 
 userSchema.methods.generateActivationEmailToken = function () {
     const activationToken = randomBytes(32).toString('hex');
     this.activateEmailToken = createHash('sha256').update(activationToken).digest('hex');
     this.activateEmailTokenExpiresIn = Date.now() + 24 * 60 * 60 * 1000;
     return activationToken;
-}
+};
+
+userSchema.methods.comparePassword = async function (passedPassword: string) {
+    return await bcrypt.compare(passedPassword, this.password);
+};
 
 const UserModel: Model<any> = model('User', userSchema, 'Users');
 
