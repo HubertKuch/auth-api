@@ -12,7 +12,6 @@ function sendDevelopmentError(err: any, res: Response){
 
 function sendProductionError(err: any, res: Response) {
     console.log(err);
-    console.log(2)
     if (err.isOperationalError) {
         return res.status(err.statusCode).json({
             status: err.status,

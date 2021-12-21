@@ -43,6 +43,11 @@ const userSchema = new Schema({
         },
     },
     photo: String,
+    role: {
+        type: String,
+        default: 'user',
+        enum: ['admin', 'user', 'moderator'],
+    },
     isActivated: {
         type: Boolean,
         default: true,
@@ -51,14 +56,20 @@ const userSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    twoAuth: {
+        type: Boolean,
+        default: false,
+    },
     passwordResetToken: String,
     passwordResetExpiresIn: Date,
     passwordChangedAt: Date,
     activateEmailToken: String,
     activateEmailTokenExpiresIn: Date,
+    twoAuthLoginToken: Number,
+    twoAuthLoginExpiresIn: Date,
 });
 
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function (next: Function) {
     if (!this.isModified('password') || this.isNew) {
         return next();
     }
@@ -79,6 +90,13 @@ userSchema.methods.generateActivationEmailToken = function () {
     this.activateEmailTokenExpiresIn = Date.now() + 24 * 60 * 60 * 1000;
     return activationToken;
 };
+
+userSchema.methods.generateTwoAuthToken = function () {
+    const token: number = Math.floor(Math.random() * (999999 - 100000) + 100000);
+    this.twoAuthLoginToken = token;
+    this.twoAuthLoginExpiresIn = Date.now() + 24 * 60 * 60 * 1000;
+    return token;
+}
 
 userSchema.methods.comparePassword = async function (passedPassword: string) {
     return await bcrypt.compare(passedPassword, this.password);

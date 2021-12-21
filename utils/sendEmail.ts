@@ -12,8 +12,8 @@ export default async function sendEmail (options: IMailOptions ) {
         host: 'smtp.ethereal.email',
         port: 587,
         auth: {
-            user: 'remington.jacobson34@ethereal.email',
-            pass: 'nEnm1V4SMNdsdBzzPe'
+            user: 'stanford.wintheiser96@ethereal.email',
+            pass: 'Sh1DmkUfjBBnVDqNdX'
         }
     });
 

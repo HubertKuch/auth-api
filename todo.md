@@ -1,11 +1,12 @@
 # Secure 
-### token expires
-### check if token was expires
+###  ~~token expires~~ 
+###  ~~check if token was expires~~
 ### too many requests - 429 code
-### password change token
+### ~~password change token~~
 ### more error handles
 ### add captcha
 ### two auth login
+### ~~add roles~~
 
 <br><br>
 
