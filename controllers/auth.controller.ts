@@ -41,7 +41,7 @@ const signup = catchAsync(async (req: Request, res: Response, next: NextFunction
         to: 'kuchhhubert@gmail.com'
     });
 
-    const token: string = await signToken(user._id);
+    const token: string = await signToken(res, user._id);
 
     sendStatus(res, 'success', 201, 'ok', { token });
 });
@@ -115,7 +115,7 @@ const login = catchAsync(async (req: Request, res: Response, next: NextFunction)
         );
     }
 
-    const token = await signToken(user._id);
+    const token = await signToken(res, user._id);
 
     sendStatus(res, 'success', 200, 'ok', { token });
 });
@@ -182,7 +182,7 @@ const twoFactorAuth = catchAsync(async (req: Request, res: Response, next: NextF
 
     await user.save({ validateBeforeSave: false });
 
-    const jwtToken: string = await signToken(user._id);
+    const jwtToken: string = await signToken(res, user._id);
     return sendStatus(res, 'Success', 200, 'ok', { jwtToken });
 })
 

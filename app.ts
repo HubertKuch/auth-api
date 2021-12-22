@@ -27,8 +27,6 @@ app.use('/api/v1/users/', userRouter);
 
 app.use(errorController);
 
-
-
 let db = `${process.env.DB_URI}`
     .replace('<user>', process.env.DB_USER??'')
     .replace('<password>', process.env.DB_PASS??'');

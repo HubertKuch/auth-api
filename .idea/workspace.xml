@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ce2dc8b0-adc5-48c4-9ab5-85d4e92064d3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/auth.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/auth.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/error.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/error.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/logger.ts" beforeDir="false" afterPath="$PROJECT_DIR$/utils/logger.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/signToken.ts" beforeDir="false" afterPath="$PROJECT_DIR$/utils/signToken.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,7 +111,8 @@
       <workItem from="1640021601156" duration="10279000" />
       <workItem from="1640081410447" duration="799000" />
       <workItem from="1640111704994" duration="8000" />
-      <workItem from="1640111732007" duration="1708000" />
+      <workItem from="1640111732007" duration="2748000" />
+      <workItem from="1640157101021" duration="4271000" />
     </task>
     <servers />
   </component>
